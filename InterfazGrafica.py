@@ -1,5 +1,9 @@
 from tkinter import *
-from tkinter import filedialog, scrolledtext, Canvas
+from tkinter import filedialog, scrolledtext, Canvas, messagebox
+from AnalizadorHTML import HTML
+from AnalizadorCSS import CSS
+from AnalizadorJS import JS
+from AnalizadorRMT import RMT
 
 
 class Interfaz:
@@ -27,6 +31,7 @@ class Interfaz:
         MenuOpArch.add_command(label = "Guardar Como", command = self.ArchGuardarComo)
 
         MenuSup.add_cascade(label = "Archivo", menu = MenuOpArch)
+        MenuSup.add_cascade(label = "Analizar", command = self.Analizar)
 
     def MenuNuevo(self):
         self.editor.delete(1.0, END)
@@ -58,6 +63,23 @@ class Interfaz:
         ArchivoGuardarC.write(texto)
         ArchivoGuardarC.close()
         #Archivo = GuardarDoc
+
+    def Analizar(self):
+        Ruta = self.Archivo 
+        extension = Ruta.split(".")
+        mensaje = messagebox.showinfo("Tipo Archivo", "Es un archivo "+ extension[1])
+        if (extension[1] == "html"):
+            HTML(self.editor.get(1.0, END))
+        elif (extension[1] == "css"):
+            CSS(self.editor.get(1.0, END))
+        elif (extension[1] == "js"):
+            JS(self.editor.get(1.0, END))
+        elif (extension[1] == "rmt"):
+            RMT(self.editor.get(1.0, END))
+        else:
+            messagebox.showerror("ERROR", "Extensión no aceptada")
+
+
 
 
 
