@@ -1,4 +1,4 @@
-from Token import Tk
+from Token import Tkn
 from Error import ERROR
 
 class HTML:
@@ -56,13 +56,13 @@ class HTML:
                 else:
                     lexema += caracter
                     columna += 1
-                    columna += 1
+                    colorear += 1
                     ERROR(lexema, "Caracter desconocido", fila, columna)
                     i+=1
                     estado = 0
 
             elif (estado == 1):
-                Tk(1, lexema, "Signo", fila, columna)
+                Tkn(1, lexema, "Signo", fila, columna)
                 estado = 0
 
             elif (estado == 2):
@@ -79,7 +79,10 @@ class HTML:
                     i+=1
                     estado = 3
                 else:
-                    Tk(2, lexema, "Palabra", fila, columna)
+                    if(self.Reservadas(lexema) == 2):
+                        Tkn(2, lexema, "Palabra", fila, columna)
+                    else:
+                        Tkn(self.Reservadas(lexema), lexema, "Reservada", fila, columna)
                     estado = 0
 
             elif (estado == 3):
@@ -90,7 +93,10 @@ class HTML:
                     i+=1
                     estado = 3
                 else:
-                    Tk(3, lexema, "Palabra", fila, columna)
+                    if(self.Reservadas(lexema) == 2):
+                        Tkn(2, lexema, "Palabra", fila, columna)
+                    else:
+                        Tkn(self.Reservadas(lexema), lexema, "Reservada", fila, columna)
                     estado = 0
 
             elif (estado == 4):
@@ -101,7 +107,7 @@ class HTML:
                     i+=1
                     estado = 4
                 else:
-                    Tk(4, lexema, "Numero", fila, columna)
+                    Tkn(4, lexema, "Numero", fila, columna)
                     estado = 0
 
             elif (estado == 5):
@@ -119,23 +125,46 @@ class HTML:
                     estado = 5
 
             elif (estado == 6):
-                Tk(6, lexema, "Cadena", fila, columna)
+                Tkn(6, lexema, "Cadena", fila, columna)
                 estado = 0
 
             else: 
-                print("NOse que hacer")
-                Tk.MostrarTK(self)
+                print("Nose que hacer")
+                Tkn.MostrarTK(self)
 
-        Tk.MostrarTK(self)
+        Tkn.MostrarTK(self)
+        Tkn.ReporteToken(self)
+        ERROR.MostrarError(self)
+        ERROR.ReporteError(self)
+        #Tkn.MostrarColor(self)
+        #Interfaz.Color(1, 1.8, 1.13, "red")
 
 
         #self.Reservadas("hTml")
 
+
     def Reservadas(self, palabra):     
         #Convierto la cadena a mayusculas con el .upper()
         #Si la quiero todas en minusculas uso el .lower()
-        if (palabra.upper() == "HTML"):
-            print("Es reservada y a colorear")
+        id = 2
+        if ((palabra.upper() == "HTML")|(palabra.upper() == "HEAD")|(palabra.upper() == "TITLE")|(palabra.upper() == "BODY")):
+            id = 3
+        elif ((palabra.upper() == "H1")|(palabra.upper() == "H2")|(palabra.upper() == "H3")|(palabra.upper() == "H4")|(palabra.upper() == "H5")|(palabra.upper() == "H6")|(palabra.upper() == "P")):
+            id = 3
+        elif((palabra.upper() == "IMG")|(palabra.upper() == "SRC")|(palabra.upper() == "STYLE")):
+            id = 3
+        elif((palabra.upper() == "A")|(palabra.upper() == "HREF")|(palabra.upper() == "UL")|(palabra.upper() == "LI")):
+            id = 3
+        elif((palabra.upper() == "TABLE")|(palabra.upper() == "BORDER")|(palabra.upper() == "CAPTION")):
+            id = 3
+        elif((palabra.upper() == "TR")|(palabra.upper() == "TH")|(palabra.upper() == "TD")):
+            id = 3
+        elif((palabra.upper() == "COLGROUP")|(palabra.upper() == "COL")|(palabra.upper() == "THEAD")|(palabra.upper() == "TBODY")|(palabra.upper() == "TFOOT")):
+            id = 3
+        else:
+            id = 2
+
+        return id
 
 
 

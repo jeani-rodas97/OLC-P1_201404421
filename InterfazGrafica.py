@@ -4,7 +4,8 @@ from AnalizadorHTML import HTML
 from AnalizadorCSS import CSS
 from AnalizadorJS import JS
 from AnalizadorRMT import RMT
-
+from Token import Tkn
+from Error import ERROR
 
 class Interfaz:
     def __init__(self, ventana):
@@ -65,6 +66,15 @@ class Interfaz:
         #Archivo = GuardarDoc
 
     def Analizar(self):
+        Tkn.LimpiarHTML(self)
+        ERROR.LimpiarErrores(self)
+        '''
+        self.editor.tag_add("start", "3.0", "3.1")
+        self.editor.tag_config("start", background="black", foreground="yellow")
+        editor1 = self.editor
+        self.editor.tag_add("start1", "3.1", "3.5")
+        editor1.tag_config("start1", background="green", foreground="red")
+        '''
         Ruta = self.Archivo 
         extension = Ruta.split(".")
         mensaje = messagebox.showinfo("Tipo Archivo", "Es un archivo "+ extension[1])
@@ -78,10 +88,39 @@ class Interfaz:
             RMT(self.editor.get(1.0, END))
         else:
             messagebox.showerror("ERROR", "Extensión no aceptada")
+        self.Color()
+
+    def Color(self):
+        listaC = [] 
+        listaC = Tkn.ConsultaColor(self)
+        i=0
+        #print("Llegue a la lista ")
+        
+        for c in listaC:
+            for item in range(len(c)-3):
+                #print(item)
+                
+                #print("leyendo la lista")
+                if(c[item+3] == "Signo"):
+                    color = "orange"
+                elif(c[item+3] == "Cadena"):
+                    color = "yellow"
+                elif(c[item+3] == "Reservada"):
+                    color = "red"
+                else:
+                    color = "white"
+
+                self.editor.tag_add(f"start{i}", f"{c[item]}.{c[item+1]}", f"{c[item]}.{c[item+2]}")
+                #print("start", f"{c[item]}.{c[item+1]}", f"{c[item]}.{c[item+2]}")
+                self.editor.tag_config(f"start{i}", background= color)
+                i +=1 
 
 
-
-
+                
+        #self.editor.tag_add("start", f"{fila}.{inicio}", f"{fila}.{fin}")
+        #self.editor.tag_add("start", "1.8", "1.13")
+        #self.editor.tag_config("start", foreground=f"{color}")
+        #self.editor.tag_config("start", background="black", foreground="yellow")
 
 
 def OpSalir():
