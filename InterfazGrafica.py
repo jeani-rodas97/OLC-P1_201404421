@@ -21,9 +21,22 @@ class Interfaz:
         
         #Editor de la entrada donde se va a cargar el archivo 
         Label(Pantalla,text='Archivo de Entrada:').grid(row=2,column=5)
-        self.editor = scrolledtext.ScrolledText(Pantalla, undo = True, height=30, width=60)
+        self.editor = scrolledtext.ScrolledText(Pantalla, undo = True, height=25, width=60)
         self.editor.grid(row=4,column=5)
 
+        #Consola de salida 
+        Label(Pantalla,text='Recorrido:').grid(row=2, column=16)
+        self.recorrido = scrolledtext.ScrolledText(Pantalla, undo = True, height=25, width=40)
+        self.recorrido.grid(row = 4,column= 16)
+
+        Label(Pantalla,text='      ').grid(row=4,column=15)
+
+        #Recorrido de estados 
+        Label(Pantalla,text='Errores: ').grid(row = 5, column=16)
+        self.consola = scrolledtext.ScrolledText(Pantalla, undo = True, height=11, width=40)
+        self.consola.grid(row = 6, column= 16)
+
+        Label(Pantalla,text='      ').grid(row=3,column=20)
         #Menu de barra 
         MenuOpArch = Menu(MenuSup, tearoff=0)
         MenuOpArch.add_command(label = "Nuevo", command = self.MenuNuevo)
@@ -33,6 +46,7 @@ class Interfaz:
 
         MenuSup.add_cascade(label = "Archivo", menu = MenuOpArch)
         MenuSup.add_cascade(label = "Analizar", command = self.Analizar)
+        MenuSup.add_cascade(label = "Salir", command = self.OpSalir)
 
     def MenuNuevo(self):
         self.editor.delete(1.0, END)
@@ -65,6 +79,22 @@ class Interfaz:
         ArchivoGuardarC.close()
         #Archivo = GuardarDoc
 
+    def EscribirConsola(self):
+        LError = []
+        LError = ERROR.ErroresList(self)
+        self.consola.delete(1.0, END)
+        for er in LError:
+            self.consola.insert(INSERT, er)
+            self.consola.insert(INSERT, "\n")
+
+    def EscribirEstados(self):
+        LEstados = []
+        LEstados = CSS.estados(self)
+        self.recorrido.delete(1.0, END)
+        for est in LEstados:
+            self.recorrido.insert(INSERT, est)
+            self.recorrido.insert(INSERT, "\n")
+
     def Analizar(self):
         Tkn.LimpiarHTML(self)
         ERROR.LimpiarErrores(self)
@@ -89,6 +119,8 @@ class Interfaz:
         else:
             messagebox.showerror("ERROR", "Extensión no aceptada")
         self.Color()
+        self.EscribirConsola()
+        self.EscribirEstados()
 
     def Color(self):
         listaC = [] 
@@ -107,6 +139,12 @@ class Interfaz:
                     color = "yellow"
                 elif(c[item+3] == "Reservada"):
                     color = "red"
+                elif(c[item+3] == "Comentario"):
+                    color = "gray"
+                elif((c[item+3] == "Numero")|(c[item+3] == "Porcentaje")):
+                    color = "blue"
+                elif(c[item+3] == "Variable"):
+                    color = "green"
                 else:
                     color = "white"
 
@@ -123,10 +161,10 @@ class Interfaz:
         #self.editor.tag_config("start", background="black", foreground="yellow")
 
 
-def OpSalir():
-    value = messagebox.askokcancel("Salir", "Está seguro que desea salir?")
-    if value :
-        Interfaz(ventana).destroy()
+    def OpSalir(self):
+        value = messagebox.askokcancel("Salir", "Está seguro que desea salir?")
+        if value :
+            ventana.destroy()
 
 
 if __name__ == "__main__":

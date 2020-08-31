@@ -9,6 +9,9 @@ class ERROR:
         listaERROR.append([error, descripcion, fila, col])
         print("Llega a lista de errores")
 
+    def ErroresList(self):
+        return listaERROR
+
     def MostrarError(self):
         for Error in listaERROR:
             print(Error)
