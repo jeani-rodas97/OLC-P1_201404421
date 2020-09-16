@@ -115,9 +115,26 @@ class JS:
                     lexema += caracter
                     i+=1
                     estado = 5
+                elif (caracter == "*"):
+                    columna+=1 
+                    lexema += caracter
+                    i+=1
+                    estado = 4
+                elif (caracter == '\n'):
+                    columna = 0
+                    fila +=1
+                    i+=1
+                    estado = 3
+                elif (caracter.isspace()):
+                    lexema += caracter
+                    columna += 1 
+                    i+=1
+                    estado = 3
                 else:
-                    ERROR(lexema, "Falto un /", fila, columna)
-                    estado = 0
+                    columna+=1 
+                    lexema += caracter
+                    i+=1
+                    estado = 4
 
             elif (estado == 5):
                 Tkn(5, lexema, "Comentario", fila, columna)

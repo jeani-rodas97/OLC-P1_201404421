@@ -6,7 +6,9 @@ from AnalizadorJS import JS
 from AnalizadorRMT import RMT
 from Token import Tkn
 from Error import ERROR
+import os
 
+Extension = ""
 class Interfaz:
     def __init__(self, ventana):
         self.Archivo = " "
@@ -108,6 +110,7 @@ class Interfaz:
         Ruta = self.Archivo 
         extension = Ruta.split(".")
         mensaje = messagebox.showinfo("Tipo Archivo", "Es un archivo "+ extension[1])
+        self.TipoExt(extension[1])
         if (extension[1] == "html"):
             HTML(self.editor.get(1.0, END))
         elif (extension[1] == "css"):
@@ -135,14 +138,19 @@ class Interfaz:
                 #print("leyendo la lista")
                 if(c[item+3] == "Signo"):
                     color = "orange"
+                    signo = True
                 elif(c[item+3] == "Cadena"):
                     color = "yellow"
+                    cadena = True
                 elif(c[item+3] == "Reservada"):
                     color = "red"
+                    palabra = True
                 elif(c[item+3] == "Comentario"):
                     color = "gray"
+                    comentario = True
                 elif((c[item+3] == "Numero")|(c[item+3] == "Porcentaje")):
                     color = "blue"
+                    numero = True
                 elif(c[item+3] == "Variable"):
                     color = "green"
                 else:
@@ -153,6 +161,10 @@ class Interfaz:
                 self.editor.tag_config(f"start{i}", background= color)
                 i +=1 
 
+                if (Extension == "html"):
+                    print("Entra a la variable Extension")
+                    self.grafoHTML(signo, cadena, palabra, comentario, numero)
+
 
                 
         #self.editor.tag_add("start", f"{fila}.{inicio}", f"{fila}.{fin}")
@@ -160,6 +172,23 @@ class Interfaz:
         #self.editor.tag_config("start", foreground=f"{color}")
         #self.editor.tag_config("start", background="black", foreground="yellow")
 
+    def TipoExt(self, Ext):
+        print(f"La extension {Ext}")
+
+    def grafoHTML(self, signo, cadena, palabra, comentario, numero):
+        print("Entra al metodo grafoHTML")
+        htmlDot = "digraph html { \n rankdir=LR; \n node [shape = circle]; \n"
+        if (signo == True):
+            print("Encontro el signo true")
+            htmlDot += " 1 [shape = doublecircle] \n 0->1 [label = \"Signo\"] \n"
+        if (cadena):
+            htmlDot += "2, 3 [shape = doublecircle] \n 0->2 [label = \"L\"] \n 2->2 [label = \"L*\"] \n 2->3 [label = \"D\"]"
+        htmlDot += "}"
+        grafica = open("GrafoHTML.dot", "w")
+        grafica.write(htmlDot)
+        grafica.close()
+        os.system("dot -Tjpg GrafoHTML.dot -o GrafoHTML.jpg")
+        os.system("GrafoHTML.jpg")
 
     def OpSalir(self):
         value = messagebox.askokcancel("Salir", "Está seguro que desea salir?")
