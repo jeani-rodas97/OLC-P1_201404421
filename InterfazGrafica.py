@@ -8,7 +8,6 @@ from Token import Tkn
 from Error import ERROR
 import os
 
-Extension = ""
 class Interfaz:
     def __init__(self, ventana):
         self.Archivo = " "
@@ -109,8 +108,7 @@ class Interfaz:
         '''
         Ruta = self.Archivo 
         extension = Ruta.split(".")
-        mensaje = messagebox.showinfo("Tipo Archivo", "Es un archivo "+ extension[1])
-        self.TipoExt(extension[1])
+        mensaje = messagebox.showinfo("Tipo Archivo", "Es un archivo " + extension[1])
         if (extension[1] == "html"):
             HTML(self.editor.get(1.0, END))
         elif (extension[1] == "css"):
@@ -121,11 +119,16 @@ class Interfaz:
             RMT(self.editor.get(1.0, END))
         else:
             messagebox.showerror("ERROR", "Extensión no aceptada")
-        self.Color()
+        self.Color(extension[1])
         self.EscribirConsola()
         self.EscribirEstados()
 
-    def Color(self):
+    def Color(self, rutaArch):
+        signo = False
+        cadena = False
+        palabra = False
+        comentario = False
+        numero = False 
         listaC = [] 
         listaC = Tkn.ConsultaColor(self)
         i=0
@@ -161,9 +164,9 @@ class Interfaz:
                 self.editor.tag_config(f"start{i}", background= color)
                 i +=1 
 
-                if (Extension == "html"):
-                    print("Entra a la variable Extension")
-                    self.grafoHTML(signo, cadena, palabra, comentario, numero)
+        if (rutaArch == "html"):
+            print("Entra a la variable Extension")
+            self.grafoHTML(signo, cadena, palabra, comentario, numero)
 
 
                 
@@ -171,9 +174,6 @@ class Interfaz:
         #self.editor.tag_add("start", "1.8", "1.13")
         #self.editor.tag_config("start", foreground=f"{color}")
         #self.editor.tag_config("start", background="black", foreground="yellow")
-
-    def TipoExt(self, Ext):
-        print(f"La extension {Ext}")
 
     def grafoHTML(self, signo, cadena, palabra, comentario, numero):
         print("Entra al metodo grafoHTML")

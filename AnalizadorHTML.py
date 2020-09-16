@@ -166,6 +166,8 @@ class HTML:
 
         return id
 
+    
+
 
 
 ''' Codigo para pruebas de la clase
