@@ -24,6 +24,9 @@ class Tkn:
 
     def ConsultaColor(self):
         return listaCol
+
+    def ConsultarTok(self):
+        return listaTK
             
         '''for i in range(len(listaTK)-4):
             fila, inicio, fin, color

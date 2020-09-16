@@ -165,8 +165,13 @@ class Interfaz:
                 i +=1 
 
         if (rutaArch == "html"):
-            print("Entra a la variable Extension")
             self.grafoHTML(signo, cadena, palabra, comentario, numero)
+        elif (rutaArch == "css"):
+            self.grafoCSS(signo, cadena, palabra, comentario, numero)
+        elif (rutaArch == "js"):
+            self.grafoJS(signo, cadena, palabra, comentario, numero)
+        elif (rutaArch == "rmt"):
+            self.grafoRMT(signo, cadena, palabra, comentario, numero)
 
 
                 
@@ -181,14 +186,71 @@ class Interfaz:
         if (signo == True):
             print("Encontro el signo true")
             htmlDot += " 1 [shape = doublecircle] \n 0->1 [label = \"Signo\"] \n"
+        if (palabra):
+            htmlDot += "2, 3 [shape = doublecircle] \n 0->2 [label = \"L\"] \n 2->2 [label = \"L*\"] \n 2->3 [label = \"D\"] \n"
+        if (numero):
+            htmlDot += " 4 [shape = doublecircle] \n 0->4 [label = \"D\"] \n 4->4 [label = \"D*\"] \n"
         if (cadena):
-            htmlDot += "2, 3 [shape = doublecircle] \n 0->2 [label = \"L\"] \n 2->2 [label = \"L*\"] \n 2->3 [label = \"D\"]"
+            htmlDot += " 6 [shape = doublecircle] \n 0->5 [label = \"Comillas\"] \n 5->5 [label = \"Todo*\"] \n  5->6 [label = \"Comillas\"] \n"
         htmlDot += "}"
         grafica = open("GrafoHTML.dot", "w")
         grafica.write(htmlDot)
         grafica.close()
         os.system("dot -Tjpg GrafoHTML.dot -o GrafoHTML.jpg")
         os.system("GrafoHTML.jpg")
+
+    def grafoCSS(self, signo, cadena, palabra, comentario, numero):
+        cssDot = "digraph CSS { \n rankdir=LR; \n node [shape = circle]; \n"
+        if (signo):
+            cssDot += " 8 [shape = doublecircle] \n 0->8 [label = \"Signo\"] \n"
+        if (palabra):
+            cssDot += "5, 7 [shape = doublecircle] \n 0->5 [label = \"L\"] \n 5->5 [label = \"L*\"] \n 5->6 [label = \"-\"] \n 6->7 [label = \"L\"] \n 7->7 [label = \"L*\"] \n"
+        if (comentario):
+            cssDot += " 1, 4 [shape = doublecircle] \n 0->1 [label = \"/\"] \n 1->2 [label = \"*\"] \n 2->2 [label = \"Todo*\"] \n  2->3 [label = \"*\"] \n 3->2 [label = \"Todo*\"] \n 3->4 [label = \"/*\"] \n "
+        if (cadena):
+            cssDot += " 15 [shape = doublecircle] \n 0->14 [label = \"Comillas\"] \n 14->14 [label = \"Todo*\"] \n  14->15 [label = \"Comillas\"] \n"
+        if (numero):
+            cssDot += " 9, 11, 13 [shape = doublecircle] \n 0->9 [label = \"D\"] \n 0->12 [label = \"-\"] \n 9->9 [label = \"D\"] \n  9->10 [label = \".\"] \n 9->13 [label = \"%\"] \n 10->11 [label = \"D\"] \n 11->11 [label = \"D\"] \n 11->13 [label = \"%\"] \n"
+        cssDot += "}"
+        grafica = open("GrafoCSS.dot", "w")
+        grafica.write(cssDot)
+        grafica.close()
+        os.system("dot -Tjpg GrafoCSS.dot -o GrafoCSS.jpg")
+        os.system("GrafoCSS.jpg")
+
+    def grafoJS(self, signo, cadena, palabra, comentario, numero):
+        jsDot = "digraph JS { \n rankdir=LR; \n node [shape = circle]; \n"
+        if (comentario):
+            jsDot += "1, 2, 5 [shape = doublecircle] \n 0->1 [label = \"/\"] \n 1->2 [label = \"/\"] \n 2->2 [label = \"Todo*\"] \n 1->3 [label = \"*\"] \n 3->3 [label = \"Todo*\"] \n 3->4 [label = \"*\"] \n 4->3 [label = \"Todo*\"] \n 4->5 [label = \"/\"] \n"
+        if (palabra):
+            jsDot += "6 [shape = doublecircle] \n 0->6 [label = \"L\"] \n 6->6 [label = \"L*\"] \n"
+        if (signo):
+            jsDot += " 7 [shape = doublecircle] \n 0->7 [label = \"Signo\"] \n"
+        if (cadena):
+            jsDot += " 9 [shape = doublecircle] \n 0->8 [label = \"Comillas\"] \n 8->8 [label = \"Todo*\"] \n  8->9 [label = \"Comillas\"] \n"
+        if (numero):
+            jsDot += " 10 [shape = doublecircle] \n 0->10 [label = \"D\"] \n 10->10 [label = \"D*\"] \n"
+        jsDot += "}"
+        grafica = open("GrafoJS.dot", "w")
+        grafica.write(jsDot)
+        grafica.close()
+        os.system("dot -Tjpg GrafoJS.dot -o GrafoJS.jpg")
+        os.system("GrafoJS.jpg")
+
+    def grafoRMT(self, signo, cadena, palabra, comentario, numero):
+        rmtDot = "digraph RMT { \n rankdir=LR; \n node [shape = circle]; \n"
+        if (numero):
+            rmtDot += " 1, 3 [shape = doublecircle] \n 0->1 [label = \"D\"] \n 1->1 [label = \"D*\"] \n 1->2 [label = \".\"] \n 2->3 [label = \"D\"] \n 3->3 [label = \"D*\"] \n" 
+        if (palabra):
+            rmtDot += "4 [shape = doublecircle] \n 0->4 [label = \"L\"] \n 4->4 [label = \"(L|D|_)\"] \n"
+        if (signo):
+            rmtDot += " 5 [shape = doublecircle] \n 0->5 [label = \"Operador\"] \n"
+        rmtDot += "}"
+        grafica = open("GrafoRMT.dot", "w")
+        grafica.write(rmtDot)
+        grafica.close()
+        os.system("dot -Tjpg GrafoRMT.dot -o GrafoRMT.jpg")
+        os.system("GrafoRMT.jpg")
 
     def OpSalir(self):
         value = messagebox.askokcancel("Salir", "Está seguro que desea salir?")

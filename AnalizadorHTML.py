@@ -166,6 +166,10 @@ class HTML:
 
         return id
 
+    def Path(self, texto):
+        linea = texto.split("\n")
+        salida = linea[1].split("output")
+        print(salida[1])
     
 
 
