@@ -133,7 +133,7 @@ class HTML:
                 Tkn.MostrarTK(self)
 
         Tkn.MostrarTK(self)
-        Tkn.ReporteToken(self)
+        self.Path(TextoHTML)        
         ERROR.MostrarError(self)
         ERROR.ReporteError(self)
         #Tkn.MostrarColor(self)
@@ -168,8 +168,9 @@ class HTML:
 
     def Path(self, texto):
         linea = texto.split("\n")
-        salida = linea[1].split("output")
+        salida = linea[0].split("output")
         print(salida[1])
+        Tkn.ReporteToken(self, salida[1])
     
 
 

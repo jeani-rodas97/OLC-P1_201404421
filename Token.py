@@ -33,8 +33,9 @@ class Tkn:
             print(f"id : {listaTK[i]} lex: {listaTK[i+1]} tipo: {listaTK[i+2]} fila: {listaTK[i+3]} columna: {listaTK[i+4]}")
             i = i+4 '''
 
-    def ReporteToken(self):
-        archivo = open("C:/Users/Jeany/Documents/Archivos_Python/Compi_Proy1/ReporteTk.html", "w")
+    def ReporteToken(self, ruta):
+        Arch = "C:/Users/Jeany/Documents"+ruta +"ReporteTk.html"
+        archivo = open(Arch, "w")
         archivo.writelines("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />" + "\n" + "\n")
         archivo.writelines("<HTML><HEAD><TITLE>COMPILADORES 1</TITLE></HEAD>" + "\n" + "\n")
         archivo.writelines("<H1><CENTER><B><FONT SIZE=\"12\" COLOR=\"PINK\">LISTADO DE TOKENS</FONT></B><BR></H1>" + "\n" + "\n")
