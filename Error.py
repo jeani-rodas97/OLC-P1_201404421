@@ -1,3 +1,4 @@
+import os
 listaERROR = []
 
 class ERROR:
@@ -16,8 +17,15 @@ class ERROR:
         for Error in listaERROR:
             print(Error)
 
-    def ReporteError(self):
-        archivo = open("C:/Users/Jeany/Documents/Archivos_Python/Compi_Proy1/ReporteERROR.html", "w")
+    def ReporteError(self, ruta):
+        Arch = "C:/Users/Jeany/Documents"+ruta
+        try:
+            os.stat(Arch)
+        except:
+            os.mkdir(Arch) 
+        
+        Arch = "C:/Users/Jeany/Documents"+ruta +"ReporteERROR.html"
+        archivo = open(Arch, "w")
         archivo.writelines("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />" + "\n" + "\n")
         archivo.writelines("<HTML><HEAD><TITLE>COMPILADORES 1</TITLE></HEAD>" + "\n" + "\n")
         archivo.writelines("<H1><CENTER><B><FONT SIZE=\"12\" COLOR=\"PINK\">LISTADO DE ERRORES</FONT></B><BR></H1>" + "\n" + "\n")

@@ -285,10 +285,7 @@ class CSS:
             else: 
                 print("Nose que hacer")
                 
-        Tkn.MostrarTK(self)
-        Tkn.ReporteToken(self)
-        ERROR.MostrarError(self)
-        ERROR.ReporteError(self)
+        self.Path(TextoCSS)
 
     def esta2(self, lexema, estado):
         self.lexema = lexema
@@ -325,3 +322,10 @@ class CSS:
             id = 2
 
         return id
+
+    def Path(self, texto):
+        linea = texto.split("\n")
+        salida = linea[0].split("output")
+        print(salida[1])
+        Tkn.ReporteToken(self, salida[1])
+        ERROR.ReporteError(self, salida[1])

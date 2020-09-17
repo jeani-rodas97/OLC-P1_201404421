@@ -1,4 +1,5 @@
 from os import remove
+import os
 listaTK = []
 
 listaCol = []
@@ -34,6 +35,12 @@ class Tkn:
             i = i+4 '''
 
     def ReporteToken(self, ruta):
+        Arch = "C:/Users/Jeany/Documents"+ruta
+        try:
+            os.stat(Arch)
+        except:
+            os.mkdir(Arch) 
+        
         Arch = "C:/Users/Jeany/Documents"+ruta +"ReporteTk.html"
         archivo = open(Arch, "w")
         archivo.writelines("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />" + "\n" + "\n")

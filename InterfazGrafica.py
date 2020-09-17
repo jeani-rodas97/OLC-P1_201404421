@@ -99,6 +99,9 @@ class Interfaz:
     def Analizar(self):
         Tkn.LimpiarHTML(self)
         ERROR.LimpiarErrores(self)
+        
+        self.consola.delete(1.0, END)
+        self.recorrido.delete(1.0, END)
         '''
         self.editor.tag_add("start", "3.0", "3.1")
         self.editor.tag_config("start", background="black", foreground="yellow")
@@ -156,6 +159,7 @@ class Interfaz:
                     numero = True
                 elif(c[item+3] == "Variable"):
                     color = "green"
+                    palabra = True
                 else:
                     color = "white"
 
@@ -201,16 +205,16 @@ class Interfaz:
 
     def grafoCSS(self, signo, cadena, palabra, comentario, numero):
         cssDot = "digraph CSS { \n rankdir=LR; \n node [shape = circle]; \n"
-        if (signo):
-            cssDot += " 8 [shape = doublecircle] \n 0->8 [label = \"Signo\"] \n"
-        if (palabra):
-            cssDot += "5, 7 [shape = doublecircle] \n 0->5 [label = \"L\"] \n 5->5 [label = \"L*\"] \n 5->6 [label = \"-\"] \n 6->7 [label = \"L\"] \n 7->7 [label = \"L*\"] \n"
         if (comentario):
             cssDot += " 1, 4 [shape = doublecircle] \n 0->1 [label = \"/\"] \n 1->2 [label = \"*\"] \n 2->2 [label = \"Todo*\"] \n  2->3 [label = \"*\"] \n 3->2 [label = \"Todo*\"] \n 3->4 [label = \"/*\"] \n "
-        if (cadena):
-            cssDot += " 15 [shape = doublecircle] \n 0->14 [label = \"Comillas\"] \n 14->14 [label = \"Todo*\"] \n  14->15 [label = \"Comillas\"] \n"
+        if (palabra):
+            cssDot += "5, 7 [shape = doublecircle] \n 0->5 [label = \"L\"] \n 5->5 [label = \"L*\"] \n 5->6 [label = \"-\"] \n 6->7 [label = \"L\"] \n 7->7 [label = \"L*\"] \n"
+        if (signo):
+            cssDot += " 8 [shape = doublecircle] \n 0->8 [label = \"Signo\"] \n"
         if (numero):
             cssDot += " 9, 11, 13 [shape = doublecircle] \n 0->9 [label = \"D\"] \n 0->12 [label = \"-\"] \n 9->9 [label = \"D\"] \n  9->10 [label = \".\"] \n 9->13 [label = \"%\"] \n 10->11 [label = \"D\"] \n 11->11 [label = \"D\"] \n 11->13 [label = \"%\"] \n"
+        if (cadena):
+            cssDot += " 15 [shape = doublecircle] \n 0->14 [label = \"Comillas\"] \n 14->14 [label = \"Todo*\"] \n  14->15 [label = \"Comillas\"] \n"
         cssDot += "}"
         grafica = open("GrafoCSS.dot", "w")
         grafica.write(cssDot)

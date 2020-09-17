@@ -116,11 +116,10 @@ class RMT:
                 print("Nose que hacer")
                 Tkn.MostrarTK(self)
 
-        Tkn.MostrarTK(self)
-        Tkn.ReporteToken(self)
+        
+        #self.AnalizadorSintac()
+        self.Path(TextoRMT)
         ERROR.MostrarError(self)
-        ERROR.ReporteError(self)
-        self.AnalizadorSintac()
 
     def Parentesis(self, cont):
         correcto = False
@@ -148,3 +147,8 @@ class RMT:
         if(ParA != ParC):
             ERROR(")", "Error sintactico, falto parentesis cerrado )", 0, 0)
 
+
+    def Path(self, texto):
+        ruta = "/js/"
+        Tkn.ReporteToken(self, ruta )
+        ERROR.ReporteError(self, ruta )

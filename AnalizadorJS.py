@@ -187,10 +187,7 @@ class JS:
                 print("Nose que hacer")
                 Tkn.MostrarTK(self)
 
-        Tkn.MostrarTK(self)
-        Tkn.ReporteToken(self)
-        ERROR.MostrarError(self)
-        ERROR.ReporteError(self)
+        self.Path(TextoJS)
         #Tkn.MostrarColor(self)
         #Interfaz.Color(1, 1.8, 1.13, "red")
 
@@ -220,3 +217,10 @@ class JS:
             id = 6
 
         return id     
+
+    def Path(self, texto):
+        linea = texto.split("\n")
+        salida = linea[0].split("output")
+        print(salida[1])
+        Tkn.ReporteToken(self, salida[1])
+        ERROR.ReporteError(self, salida[1])
